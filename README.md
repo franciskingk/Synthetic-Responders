@@ -53,6 +53,25 @@ npm run dev
 
 Frontend available at: `http://localhost:3000`
 
+### Local Testing Shortcut
+
+From the repo root on Windows PowerShell:
+
+```powershell
+.\scripts\start-local.ps1
+```
+
+This starts:
+- frontend at `http://127.0.0.1:3000`
+- backend at `http://127.0.0.1:8000`
+- API docs at `http://127.0.0.1:8000/docs`
+
+To stop both services:
+
+```powershell
+.\scripts\stop-local.ps1
+```
+
 ## Architecture
 
 ### Backend (Python 3.11 + FastAPI)

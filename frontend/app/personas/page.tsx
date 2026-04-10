@@ -7,6 +7,18 @@ import { auth } from '@/lib/auth';
 import api from '@/lib/api';
 import { Persona } from '@/lib/types';
 
+const psychographicLabels = {
+  innovation_openness: 'Innovation',
+  price_sensitivity: 'Price sensitivity',
+  quality_orientation: 'Quality focus',
+  convenience_focus: 'Convenience',
+  social_influence: 'Social influence',
+  routine_preference: 'Routine preference',
+  trust_in_institutions: 'Institution trust',
+  brand_loyalty: 'Brand loyalty',
+  risk_tolerance: 'Risk tolerance',
+} as const;
+
 export default function PersonasPage() {
   const router = useRouter();
   const [personas, setPersonas] = useState<Persona[]>([]);
@@ -51,6 +63,12 @@ export default function PersonasPage() {
     ? (personas.reduce((sum, persona) => sum + persona.psychographics.brand_loyalty, 0) / personas.length) * 100
     : 0;
 
+  const getTopTraits = (persona: Persona) =>
+    Object.entries(persona.psychographics)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 3)
+      .map(([key, value]) => `${psychographicLabels[key as keyof typeof psychographicLabels]} ${Math.round(value * 100)}%`);
+
   return (
     <div className="container py-8">
       <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -94,9 +112,19 @@ export default function PersonasPage() {
                 {persona.demographics.age} | {persona.demographics.gender} | {persona.demographics.location}
               </p>
               <div className="mb-4 space-y-2 text-sm">
-                <p><strong>Income:</strong> {persona.demographics.income_band}</p>
+                <p><strong>Monthly income:</strong> {persona.demographics.income_band}</p>
                 <p><strong>Education:</strong> {persona.demographics.education_level}</p>
                 <p><strong>Brand Loyalty:</strong> {(persona.psychographics.brand_loyalty * 100).toFixed(0)}%</p>
+              </div>
+              <div className="mb-4 flex flex-wrap gap-2">
+                {getTopTraits(persona).map((trait) => (
+                  <span
+                    key={trait}
+                    className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-xs font-medium text-[var(--accent-strong)]"
+                  >
+                    {trait}
+                  </span>
+                ))}
               </div>
               <div className="mb-4 space-y-2">
                 <div>
@@ -115,6 +143,15 @@ export default function PersonasPage() {
                   </div>
                   <div className="h-2 rounded-full bg-gray-100">
                     <div className="h-2 rounded-full bg-emerald-500" style={{ width: `${persona.psychographics.price_sensitivity * 100}%` }} />
+                  </div>
+                </div>
+                <div>
+                  <div className="mb-1 flex justify-between text-xs text-gray-500">
+                    <span>Quality Orientation</span>
+                    <span>{(persona.psychographics.quality_orientation * 100).toFixed(0)}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-gray-100">
+                    <div className="h-2 rounded-full bg-amber-500" style={{ width: `${persona.psychographics.quality_orientation * 100}%` }} />
                   </div>
                 </div>
               </div>

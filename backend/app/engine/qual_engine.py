@@ -22,7 +22,11 @@ class QualEngine:
 - Brand Loyalty: {persona.brand_loyalty:.2f}
 - Price Sensitivity: {persona.price_sensitivity:.2f}
 - Innovation Openness: {persona.innovation_openness:.2f}
-- Trust in Institutions: {persona.trust_in_institutions:.2f}"""
+- Trust in Institutions: {persona.trust_in_institutions:.2f}
+- Social Influence: {persona.social_influence:.2f}
+- Routine Preference: {persona.routine_preference:.2f}
+- Convenience Focus: {persona.convenience_focus:.2f}
+- Quality Orientation: {persona.quality_orientation:.2f}"""
 
     @staticmethod
     def build_fallback_response(
@@ -39,7 +43,9 @@ class QualEngine:
             persona.brand_loyalty
             + persona.innovation_openness
             + persona.risk_tolerance
+            + persona.quality_orientation
             - persona.price_sensitivity
+            - (persona.routine_preference * 0.5)
         )
 
         if stance_score >= 1.4:
@@ -81,6 +87,16 @@ class QualEngine:
             "If the packaging feels practical and easy to grab, that helps.",
             "I would pay attention to which size feels like the safest first purchase.",
         ]
+        social_options = [
+            "I would probably notice what people around me are saying before I decided.",
+            "If people in my circle kept recommending it, that would push me closer to trying it.",
+            "Seeing others use it confidently would make me more comfortable testing it.",
+        ]
+        convenience_options = [
+            "If it is easy to find and fits smoothly into my routine, I would be much more likely to buy it.",
+            "Convenience matters a lot to me, so I would lean toward the option that feels easiest to keep using.",
+            "I would pay attention to whether it feels simple and practical enough for regular use.",
+        ]
         closing_options = [
             "If the first experience was good, I'd be more likely to buy it again.",
             "After that first try, I'd decide pretty quickly whether it fits my regular habits.",
@@ -92,6 +108,10 @@ class QualEngine:
 
         if "why" in lower_question or "reason" in lower_question:
             parts.append(rng.choice(reason_options))
+        elif "friend" in lower_question or "people" in lower_question or "recommend" in lower_question:
+            parts.append(rng.choice(social_options))
+        elif "easy" in lower_question or "convenient" in lower_question or "routine" in lower_question:
+            parts.append(rng.choice(convenience_options))
         elif "package" in lower_question or "size" in lower_question:
             parts.append(rng.choice(packaging_options))
         else:

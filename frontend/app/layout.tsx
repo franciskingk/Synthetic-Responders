@@ -1,39 +1,36 @@
-'use client';
-
-import React, { ReactNode } from 'react';
+import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
 import '../styles/globals.css';
+import SiteHeader from '@/components/site-header';
+import SiteFooter from '@/components/site-footer';
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
+const bodyFont = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+});
 
-export default function RootLayout({ children }: RootLayoutProps) {
+const headingFont = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-heading',
+});
+
+export const metadata: Metadata = {
+  title: 'Synthetic Responders',
+  description: 'Build personas, launch survey simulations, and review synthetic respondent insight in one research workspace.',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Synthetic Research Lab</title>
-        <meta name="description" content="Generate synthetic survey responses using AI" />
-      </head>
+    <html lang="en" className={`${bodyFont.variable} ${headingFont.variable}`}>
       <body>
-        <div className="min-h-screen flex flex-col">
-          <header className="bg-white shadow">
-            <nav className="container h-16 flex items-center justify-between">
-              <div className="text-2xl font-bold text-blue-600">SRL</div>
-              <div className="flex gap-4">
-                {/* Navigation links will be added */}
-              </div>
-            </nav>
-          </header>
-          <main className="flex-1">
-            {children}
-          </main>
-          <footer className="bg-gray-50 border-t border-gray-200">
-            <div className="container py-8 text-sm text-gray-600">
-              <p>© 2024 Synthetic Research Lab. All rights reserved.</p>
-            </div>
-          </footer>
+        <div className="relative min-h-screen">
+          <SiteHeader />
+          <main className="relative z-10 flex-1">{children}</main>
+          <SiteFooter />
         </div>
       </body>
     </html>

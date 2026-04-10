@@ -27,6 +27,10 @@ class Persona(Base):
     price_sensitivity = Column(Float, nullable=False)
     innovation_openness = Column(Float, nullable=False)
     trust_in_institutions = Column(Float, nullable=False)
+    social_influence = Column(Float, nullable=False, default=0.5)
+    routine_preference = Column(Float, nullable=False, default=0.5)
+    convenience_focus = Column(Float, nullable=False, default=0.5)
+    quality_orientation = Column(Float, nullable=False, default=0.5)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -52,6 +56,10 @@ class PersonaPsychographicsSchema(BaseModel):
     price_sensitivity: float = Field(ge=0.0, le=1.0)
     innovation_openness: float = Field(ge=0.0, le=1.0)
     trust_in_institutions: float = Field(ge=0.0, le=1.0)
+    social_influence: float = Field(ge=0.0, le=1.0)
+    routine_preference: float = Field(ge=0.0, le=1.0)
+    convenience_focus: float = Field(ge=0.0, le=1.0)
+    quality_orientation: float = Field(ge=0.0, le=1.0)
     
     @field_validator('*', mode='before')
     @classmethod

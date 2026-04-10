@@ -23,6 +23,10 @@ export interface PersonaPsychographics {
   price_sensitivity: number;
   innovation_openness: number;
   trust_in_institutions: number;
+  social_influence: number;
+  routine_preference: number;
+  convenience_focus: number;
+  quality_orientation: number;
 }
 
 export interface Persona {

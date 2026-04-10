@@ -8,7 +8,12 @@ from app.models.persona import Persona, PersonaDemographicsSchema, PersonaPsycho
 class PersonaService:
     """Service for persona operations."""
     
-    VALID_INCOME_BANDS = ["$0-30K", "$30-60K", "$60-100K", "$100K+"]
+    VALID_INCOME_BANDS = [
+        "Below KES 50,000",
+        "KES 50,000 - 100,000",
+        "KES 100,000 - 250,000",
+        "KES 250,000+",
+    ]
     VALID_EDUCATION_LEVELS = ["HS", "BA", "MA", "PhD"]
     VALID_GENDERS = ["M", "F", "Other"]
     
@@ -50,6 +55,10 @@ class PersonaService:
             price_sensitivity=max(0.0, min(1.0, psychographics.price_sensitivity)),
             innovation_openness=max(0.0, min(1.0, psychographics.innovation_openness)),
             trust_in_institutions=max(0.0, min(1.0, psychographics.trust_in_institutions)),
+            social_influence=max(0.0, min(1.0, psychographics.social_influence)),
+            routine_preference=max(0.0, min(1.0, psychographics.routine_preference)),
+            convenience_focus=max(0.0, min(1.0, psychographics.convenience_focus)),
+            quality_orientation=max(0.0, min(1.0, psychographics.quality_orientation)),
         )
         db.add(new_persona)
         db.commit()
@@ -101,6 +110,10 @@ class PersonaService:
             persona.price_sensitivity = max(0.0, min(1.0, psychographics.price_sensitivity))
             persona.innovation_openness = max(0.0, min(1.0, psychographics.innovation_openness))
             persona.trust_in_institutions = max(0.0, min(1.0, psychographics.trust_in_institutions))
+            persona.social_influence = max(0.0, min(1.0, psychographics.social_influence))
+            persona.routine_preference = max(0.0, min(1.0, psychographics.routine_preference))
+            persona.convenience_focus = max(0.0, min(1.0, psychographics.convenience_focus))
+            persona.quality_orientation = max(0.0, min(1.0, psychographics.quality_orientation))
         
         db.add(persona)
         db.commit()

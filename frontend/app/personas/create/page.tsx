@@ -10,7 +10,11 @@ type PersonaTraitKey =
   | 'brand_loyalty'
   | 'price_sensitivity'
   | 'innovation_openness'
-  | 'trust_in_institutions';
+  | 'trust_in_institutions'
+  | 'social_influence'
+  | 'routine_preference'
+  | 'convenience_focus'
+  | 'quality_orientation';
 
 const personaTraits: PersonaTraitKey[] = [
   'risk_tolerance',
@@ -18,7 +22,30 @@ const personaTraits: PersonaTraitKey[] = [
   'price_sensitivity',
   'innovation_openness',
   'trust_in_institutions',
+  'social_influence',
+  'routine_preference',
+  'convenience_focus',
+  'quality_orientation',
 ];
+
+const incomeBands = [
+  'Below KES 50,000',
+  'KES 50,000 - 100,000',
+  'KES 100,000 - 250,000',
+  'KES 250,000+',
+];
+
+const traitLabels: Record<PersonaTraitKey, string> = {
+  risk_tolerance: 'Risk tolerance',
+  brand_loyalty: 'Brand loyalty',
+  price_sensitivity: 'Price sensitivity',
+  innovation_openness: 'Innovation openness',
+  trust_in_institutions: 'Trust in institutions',
+  social_influence: 'Social influence',
+  routine_preference: 'Routine preference',
+  convenience_focus: 'Convenience focus',
+  quality_orientation: 'Quality orientation',
+};
 
 export default function CreatePersonaPage() {
   const router = useRouter();
@@ -31,13 +58,17 @@ export default function CreatePersonaPage() {
     age: 30,
     gender: 'M',
     location: '',
-    income_band: '$30-60K',
+    income_band: 'KES 50,000 - 100,000',
     education_level: 'BA',
     risk_tolerance: 0.5,
     brand_loyalty: 0.5,
     price_sensitivity: 0.5,
     innovation_openness: 0.5,
     trust_in_institutions: 0.5,
+    social_influence: 0.5,
+    routine_preference: 0.5,
+    convenience_focus: 0.5,
+    quality_orientation: 0.5,
   });
 
   useEffect(() => {
@@ -78,6 +109,10 @@ export default function CreatePersonaPage() {
           price_sensitivity: form.price_sensitivity,
           innovation_openness: form.innovation_openness,
           trust_in_institutions: form.trust_in_institutions,
+          social_influence: form.social_influence,
+          routine_preference: form.routine_preference,
+          convenience_focus: form.convenience_focus,
+          quality_orientation: form.quality_orientation,
         },
       });
       router.push('/personas');
@@ -144,12 +179,13 @@ export default function CreatePersonaPage() {
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Income Band *</label>
+              <label className="form-label">Monthly Income *</label>
               <select className="form-input" value={form.income_band} onChange={(e) => handleChange('income_band', e.target.value)}>
-                <option value="$0-30K">$0-30K</option>
-                <option value="$30-60K">$30-60K</option>
-                <option value="$60-100K">$60-100K</option>
-                <option value="$100K+">$100K+</option>
+                {incomeBands.map((band) => (
+                  <option key={band} value={band}>
+                    {band}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="form-group">
@@ -166,12 +202,15 @@ export default function CreatePersonaPage() {
 
         {/* Psychographics */}
         <div>
-          <h2 className="text-xl font-bold mb-4">Psychographics (0 = Low, 1 = High)</h2>
+          <h2 className="text-xl font-bold mb-2">Psychographics (0 = Low, 1 = High)</h2>
+          <p className="mb-4 text-sm text-[var(--ink-soft)]">
+            Use a broader psychographic profile so simulation behavior feels closer to a real respondent.
+          </p>
           <div className="space-y-4">
             {personaTraits.map((trait) => (
               <div key={trait} className="form-group">
                 <label className="form-label">
-                  {trait.replace(/_/g, ' ').toUpperCase()}: {(form[trait] * 100).toFixed(0)}%
+                  {traitLabels[trait]}: {(form[trait] * 100).toFixed(0)}%
                 </label>
                 <input
                   type="range"

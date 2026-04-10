@@ -27,8 +27,10 @@ class QuantEngine:
         
         # Base score with psychographic influence
         score = 3.0
-        score += persona.brand_loyalty * 1.2
-        score += persona.price_sensitivity * 1.0
+        score += persona.brand_loyalty * 1.1
+        score += persona.price_sensitivity * 0.8
+        score += persona.quality_orientation * 0.5
+        score -= persona.routine_preference * 0.4
         
         # Add controlled noise
         noise = random.gauss(0, 0.5)
@@ -79,8 +81,15 @@ class QuantEngine:
                 brand_boost = persona.brand_loyalty * 0.3
             else:
                 brand_boost = 0
+
+            convenience_boost = persona.convenience_focus * 0.25 * ((num_options - i) / num_options)
+            quality_boost = persona.quality_orientation * 0.35 * (i / num_options)
+            social_boost = persona.social_influence * 0.2 if "popular" in option.lower() or "recommended" in option.lower() else 0
             
-            final_weight = max(0.1, position_weight + innovation_boost - price_penalty + brand_boost)
+            final_weight = max(
+                0.1,
+                position_weight + innovation_boost - price_penalty + brand_boost + convenience_boost + quality_boost + social_boost,
+            )
             weights.append(final_weight)
         
         # Normalize weights to probabilities
@@ -101,6 +110,10 @@ class TestPersona:
         self.price_sensitivity = 0.3
         self.innovation_openness = 0.6
         self.trust_in_institutions = 0.5
+        self.social_influence = 0.5
+        self.routine_preference = 0.5
+        self.convenience_focus = 0.5
+        self.quality_orientation = 0.5
 
 
 if __name__ == "__main__":

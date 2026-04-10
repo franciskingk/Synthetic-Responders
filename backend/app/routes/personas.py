@@ -64,6 +64,10 @@ def list_personas(
             "price_sensitivity": persona.price_sensitivity,
             "innovation_openness": persona.innovation_openness,
             "trust_in_institutions": persona.trust_in_institutions,
+            "social_influence": persona.social_influence,
+            "routine_preference": persona.routine_preference,
+            "convenience_focus": persona.convenience_focus,
+            "quality_orientation": persona.quality_orientation,
         }
         persona_responses.append(
             PersonaResponse(
@@ -107,6 +111,10 @@ def get_persona(
         "price_sensitivity": persona.price_sensitivity,
         "innovation_openness": persona.innovation_openness,
         "trust_in_institutions": persona.trust_in_institutions,
+        "social_influence": persona.social_influence,
+        "routine_preference": persona.routine_preference,
+        "convenience_focus": persona.convenience_focus,
+        "quality_orientation": persona.quality_orientation,
     }
     
     return PersonaResponse(
@@ -152,6 +160,10 @@ def update_persona(
         "price_sensitivity": persona.price_sensitivity,
         "innovation_openness": persona.innovation_openness,
         "trust_in_institutions": persona.trust_in_institutions,
+        "social_influence": persona.social_influence,
+        "routine_preference": persona.routine_preference,
+        "convenience_focus": persona.convenience_focus,
+        "quality_orientation": persona.quality_orientation,
     }
     
     return PersonaResponse(

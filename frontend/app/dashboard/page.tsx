@@ -115,30 +115,30 @@ export default function DashboardPage() {
       )}
 
       <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="card">
-          <p className="text-sm uppercase tracking-wide text-gray-500">Research Cockpit</p>
-          <h2 className="mt-3 text-3xl font-bold text-gray-900">
+        <div className="lively-panel">
+          <span className="lively-chip">Research Cockpit</span>
+          <h2 className="mt-4 text-3xl font-bold text-white">
             {data.personas.length} personas, {readySurveys.length} ready surveys, {completedSimulations.length} completed runs
           </h2>
-          <p className="mt-3 max-w-2xl text-gray-600">
+          <p className="mt-3 max-w-2xl text-white/72">
             Your workspace is currently converting {surveyReadiness}% of surveys into simulation-ready instruments and
             delivering a {completionRate}% run success rate.
           </p>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="rounded-lg bg-blue-50 p-4">
-              <p className="text-sm font-medium text-blue-700">Responses Generated</p>
-              <p className="mt-2 text-2xl font-bold text-blue-900">{totalResponses}</p>
-              <p className="mt-2 text-sm text-blue-700">Across all completed and in-progress runs</p>
+            <div className="rounded-[22px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <p className="text-sm font-medium text-white/60">Responses Generated</p>
+              <p className="mt-2 text-2xl font-bold text-white">{totalResponses}</p>
+              <p className="mt-2 text-sm text-white/60">Across all completed and in-progress runs</p>
             </div>
-            <div className="rounded-lg bg-emerald-50 p-4">
-              <p className="text-sm font-medium text-emerald-700">Avg. Responses Per Run</p>
-              <p className="mt-2 text-2xl font-bold text-emerald-900">{averageResponsesPerRun}</p>
-              <p className="mt-2 text-sm text-emerald-700">Completed simulations only</p>
+            <div className="rounded-[22px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <p className="text-sm font-medium text-white/60">Avg. Responses Per Run</p>
+              <p className="mt-2 text-2xl font-bold text-white">{averageResponsesPerRun}</p>
+              <p className="mt-2 text-sm text-white/60">Completed simulations only</p>
             </div>
-            <div className="rounded-lg bg-amber-50 p-4">
-              <p className="text-sm font-medium text-amber-700">Runs in Motion</p>
-              <p className="mt-2 text-2xl font-bold text-amber-900">{runningSimulations.length}</p>
-              <p className="mt-2 text-sm text-amber-700">Active simulations still generating output</p>
+            <div className="rounded-[22px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <p className="text-sm font-medium text-white/60">Runs in Motion</p>
+              <p className="mt-2 text-2xl font-bold text-white">{runningSimulations.length}</p>
+              <p className="mt-2 text-sm text-white/60">Active simulations still generating output</p>
             </div>
           </div>
         </div>
@@ -167,15 +167,15 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Link href="/personas/create" className="card cursor-pointer transition-shadow hover:shadow-lg">
+        <Link href="/personas/create" className="card cursor-pointer">
           <h2 className="mb-2 text-xl font-bold">Create Persona</h2>
           <p className="text-gray-600">Define a new research subject and sharpen your audience library.</p>
         </Link>
-        <Link href="/surveys/create" className="card cursor-pointer transition-shadow hover:shadow-lg">
+        <Link href="/surveys/create" className="card cursor-pointer">
           <h2 className="mb-2 text-xl font-bold">Create Survey</h2>
           <p className="text-gray-600">Build a new instrument and prepare it for simulation.</p>
         </Link>
-        <Link href="/simulations/create" className="card cursor-pointer transition-shadow hover:shadow-lg">
+        <Link href="/simulations/create" className="card cursor-pointer">
           <h2 className="mb-2 text-xl font-bold">Run Simulation</h2>
           <p className="text-gray-600">Launch a new synthetic fieldwork run and inspect the results.</p>
         </Link>
