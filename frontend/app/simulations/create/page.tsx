@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, FormEvent } from 'react';
+import { Suspense, useEffect, useState, FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
@@ -8,6 +8,18 @@ import api from '@/lib/api';
 import { Persona, Survey, Simulation } from '@/lib/types';
 
 export default function CreateSimulationPage() {
+  return (
+    <Suspense fallback={<CreateSimulationLoadingState />}>
+      <CreateSimulationContent />
+    </Suspense>
+  );
+}
+
+function CreateSimulationLoadingState() {
+  return <div className="container flex items-center justify-center min-h-screen">Loading...</div>;
+}
+
+function CreateSimulationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState('');
@@ -100,7 +112,7 @@ export default function CreateSimulationPage() {
   };
 
   if (loading) {
-    return <div className="container flex items-center justify-center min-h-screen">Loading...</div>;
+    return <CreateSimulationLoadingState />;
   }
 
   if (simulation) {
