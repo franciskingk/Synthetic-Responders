@@ -2,9 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.config import get_settings
+from app.db.init_db import init_db
 from app.routes import auth, personas, surveys, simulation, health
+import logging
 
 settings = get_settings()
+logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(
@@ -27,6 +30,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     """Handle uncaught exceptions."""
+    logger.exception("Unhandled exception during %s %s", request.method, request.url.path, exc_info=exc)
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal server error"},
@@ -44,16 +48,18 @@ app.include_router(simulation.router)
 @app.on_event("startup")
 async def startup():
     """Initialize database on startup."""
-    print("Synthetic Research Lab API starting...")
-    print(f"  Environment: {settings.environment}")
-    print(f"  Database: {settings.database_url}")
-    print("  LLM Providers: Groq, OpenRouter, Local")
+    logger.info("Synthetic Research Lab API starting")
+    logger.info("Environment: %s", settings.environment)
+    logger.info("Database configured: %s", bool(settings.database_url))
+    init_db()
+    logger.info("Database tables created or verified")
+    logger.info("LLM providers configured: Groq=%s OpenRouter=%s Local=%s", bool(settings.groq_api_key), bool(settings.openrouter_api_key), bool(settings.local_llm_endpoint))
 
 
 @app.on_event("shutdown")
 async def shutdown():
     """Cleanup on shutdown."""
-    print("Synthetic Research Lab API shutting down...")
+    logger.info("Synthetic Research Lab API shutting down")
 
 
 @app.get("/")
