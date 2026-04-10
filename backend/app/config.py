@@ -1,7 +1,7 @@
 from pathlib import Path
 from functools import lru_cache
 from typing import Any
-from pydantic import field_validator
+from pydantic import AliasChoices, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -11,7 +11,15 @@ class Settings(BaseSettings):
     """Application configuration from environment variables."""
     
     # Database
-    database_url: str = "postgresql://user:password@localhost:5432/synthetic_research_lab"
+    database_url: str = Field(
+        default="postgresql://user:password@localhost:5432/synthetic_research_lab",
+        validation_alias=AliasChoices(
+            "DATABASE_URL",
+            "POSTGRES_URL",
+            "DATABASE_URL_UNPOOLED",
+            "POSTGRES_URL_NON_POOLING",
+        ),
+    )
     
     # JWT
     jwt_secret_key: str = "your-secret-key-change-in-production"
