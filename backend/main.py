@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.config import get_settings
-from app.db.init_db import init_db
 from app.routes import auth, personas, surveys, simulation, health
 import logging
 
@@ -51,8 +50,6 @@ async def startup():
     logger.info("Synthetic Research Lab API starting")
     logger.info("Environment: %s", settings.environment)
     logger.info("Database configured: %s", bool(settings.database_url))
-    init_db()
-    logger.info("Database tables created or verified")
     logger.info("LLM providers configured: Groq=%s OpenRouter=%s Local=%s", bool(settings.groq_api_key), bool(settings.openrouter_api_key), bool(settings.local_llm_endpoint))
 
 
